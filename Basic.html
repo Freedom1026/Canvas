@@ -26,6 +26,8 @@
         photoArray[1] = new Image();
         photoArray[1].src = 'fish1.png';
         
+        var background = new Image();
+        background.src = 'background.jpg';
 
 
 
@@ -48,7 +50,8 @@
             this.change = function () {
                 this.x += this.dx;
                 this.y += this.dy;
-                this.sqm = Math.floor(Math.random() * 2);
+                this.sqm += 1;
+                if (this.sqm >1 ){this.sqm = 0;}
                 this.draw();
             }
 
@@ -67,7 +70,7 @@
         for (var i = 0; i < 40; i++) {
             var x = Math.random() * innerWidth;
             var y = Math.random() * innerHeight;
-            var dx = Math.random();
+            var dx = Math.random()*10;
             var dy = Math.random();
             var sqm = Math.floor(Math.random() * 2);
 
@@ -80,14 +83,17 @@
         function move() {
             
             ctx.clearRect(0, 0, innerWidth, innerHeight);
+            //畫背景
+            ctx.drawImage(background, 0, 0, innerWidth, innerHeight);
 
             for (let i = 0; i < RectArray.length; i++) {
                 RectArray[i].change();
+                console.log(RectArray.length);
             }
         }
 
         //呼叫每秒的函數 >> 修改成interval (為了動畫)
-        setInterval(move, 100);
+        setInterval(move, 50);
        // move();
 
         canvas.addEventListener("click", caculate);
@@ -117,6 +123,14 @@
                 RectArray[theNearest].dy = 0;
             }
             console.log(a);
+
+            //清除掉超出螢幕的魚
+            for (let i = 0; i < RectArray.length; i++) {
+            if(RectArray[i].x > innerWidth || RectArray[i].y > innerHeight){
+                    RectArray.splice( i, 1);
+                }
+            }
+
         }
 
 
