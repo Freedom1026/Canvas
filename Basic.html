@@ -19,6 +19,7 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         var ctx = canvas.getContext('2d');
+        //ctx.globalCompositeOperation = source-over;
         //圖片先創陣列，才能個別宣告圖片
         var photoArray = new Array();
         photoArray[0] = new Image();
@@ -29,6 +30,8 @@
         var background = new Image();
         background.src = 'background.jpg';
 
+        var net = new Image();
+        net.src='net.png';
 
 
 
@@ -51,7 +54,7 @@
                 this.x += this.dx;
                 this.y += this.dy;
                 this.sqm += 1;
-                if (this.sqm >1 ){this.sqm = 0;}
+                if (this.sqm >= photoArray.length ){this.sqm = 0;}
                 this.draw();
             }
 
@@ -85,6 +88,8 @@
             ctx.clearRect(0, 0, innerWidth, innerHeight);
             //畫背景
             ctx.drawImage(background, 0, 0, innerWidth, innerHeight);
+            
+            
 
             for (let i = 0; i < RectArray.length; i++) {
                 RectArray[i].change();
@@ -99,6 +104,17 @@
         canvas.addEventListener("click", caculate);
 
 
+        //滑鼠移動
+        canvas.addEventListener("mousemove", mouse_move);
+        function mouse_move (evt) {
+            requestAnimationFrame(mouse_move);
+            ctx.beginPath();
+            ctx.beginPath();
+            ctx.arc(evt.clientX,evt.clientY,35,0,2*Math.PI);
+            ctx.stroke();
+        }
+
+        var stopFish = 0 ;
         function caculate(evt) {
 
             //自己算的結果 距離35是碰撞最大距離
@@ -121,14 +137,16 @@
             if (theNearest) {
                 RectArray[theNearest].dx = 0;
                 RectArray[theNearest].dy = 0;
+                stopFish += 1 ;
             }
-            console.log(a);
+            console.log(theNearest);
 
             //清除掉超出螢幕的魚
             for (let i = 0; i < RectArray.length; i++) {
             if(RectArray[i].x > innerWidth || RectArray[i].y > innerHeight){
                     RectArray.splice( i, 1);
                 }
+             //   if(stopFish+RectArray.length == 20){}
             }
 
         }
