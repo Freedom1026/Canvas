@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <canvas> </canvas>
+
+
+<script>
+
+    var canvas = document.querySelector('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    var ctx = canvas.getContext('2d');
+    var photo1 = new Image;
+    var photo2 = new Image;
+    photo1.src = 'fish1.png';
+    photo2.src = 'fish0.png';
+
+    function animate(){
+        requestAnimationFrame(animate);
+        console.log('a');
+        ctx.drawImage( photo1, 20, 20);
+        ctx.drawImage( photo2, 70, 70);
+    }
+
+
+animate();
+myFunction();
+
+function myFunction() {
+    setInterval('alert("Hello");', 3000);
+}
+
+</script>
+
+
+</body>
+</html>

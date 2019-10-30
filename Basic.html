@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas> </canvas>
+
+
+    <script>
+
+        //基本設定
+        var canvas = document.querySelector('canvas');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        var ctx = canvas.getContext('2d');
+        //圖片先創陣列，才能個別宣告圖片
+        var photoArray = new Array();
+        photoArray[0] = new Image();
+        photoArray[0].src = 'fish0.png';
+        photoArray[1] = new Image();
+        photoArray[1].src = 'fish1.png';
+        
+
+
+
+
+        var timer = 0;
+        //先畫不會動的圓圈，另外的部門改變函數，丟回來再畫
+        // Receive再Draw 和 Revised再Draw
+        function Pro(x, y, dx, dy, sqm) {
+            this.x = x;
+            this.y = y;
+            this.dx = dx;
+            this.dy = dy;
+            this.sqm = sqm;
+            this.draw = function () {
+                //ctx.fillRect( this.x, this.y, this.sqm, this.sqm);
+
+                ctx.drawImage(photoArray[this.sqm], this.x - 25, this.y - 25, 100, 100);
+            }
+
+            this.change = function () {
+                this.x += this.dx;
+                this.y += this.dy;
+                this.sqm = Math.floor(Math.random() * 2);
+                this.draw();
+            }
+
+        }
+
+
+
+
+
+
+
+
+        //創造一個物件 然後丟去上面Pro跑陣列
+        var RectArray = [];
+
+        for (var i = 0; i < 40; i++) {
+            var x = Math.random() * innerWidth;
+            var y = Math.random() * innerHeight;
+            var dx = Math.random();
+            var dy = Math.random();
+            var sqm = Math.floor(Math.random() * 2);
+
+            RectArray.push(new Pro(x, y, dx, dy, sqm));
+        }
+
+
+        //每秒清除殘影，並且利用每秒的特性，每秒跑for迴圈丟新位置給上面畫圖
+        // Clean和Give的角色(呼叫)
+        function move() {
+            
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+
+            for (let i = 0; i < RectArray.length; i++) {
+                RectArray[i].change();
+            }
+        }
+
+        //呼叫每秒的函數
+        setInterval(move, 100);
+       // move();
+
+        canvas.addEventListener("click", caculate);
+
+
+        function caculate(evt) {
+
+            //自己算的結果 距離35是碰撞最大距離
+            //調整了板塊的中心位置xy值
+            //計算每次點擊時，與所有板塊距離
+            //如果小於35(a)，就取代a，並且獲取該區塊陣列位置[theNearest]
+            //重複以上步驟至陣列長度結束
+            let a = 35;
+            for (var i = 0; i < RectArray.length; i++) {
+                var Posx = evt.clientX - (RectArray[i].x + 31);
+                var Posy = evt.clientY - (RectArray[i].y + 30);
+                let b = Math.hypot(Posx, Posy);
+                if (b < a) {
+                    a = b;
+                    var theNearest = i;
+                } else { };
+            }
+
+            //如果有小於35距離的　就停掉那塊速度
+            if (theNearest) {
+                RectArray[theNearest].dx = 0;
+                RectArray[theNearest].dy = 0;
+            }
+            console.log(a);
+        }
+
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>
