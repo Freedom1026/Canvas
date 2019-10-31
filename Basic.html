@@ -47,7 +47,7 @@
             this.draw = function () {
                 //ctx.fillRect( this.x, this.y, this.sqm, this.sqm);
 
-                ctx.drawImage(photoArray[this.sqm], this.x - 25, this.y - 25, 100, 100);
+                ctx.drawImage(photoArray[this.sqm], this.x, this.y, 100, 100);
             }
 
             this.change = function () {
@@ -99,33 +99,34 @@
 
         //呼叫每秒的函數 >> 修改成interval (為了動畫)
         setInterval(move, 50);
+        setInterval(mouseCirle, 50);
        // move();
 
         canvas.addEventListener("click", caculate);
 
 
         //滑鼠移動
-        canvas.addEventListener("mousemove", mouse_move);
-        function mouse_move (evt) {
-            requestAnimationFrame(mouse_move);
+        canvas.addEventListener("mousemove", mouseCirle);
+        
+        function mouseCirle (evt) {
             ctx.beginPath();
             ctx.beginPath();
-            ctx.arc(evt.clientX,evt.clientY,35,0,2*Math.PI);
+            ctx.arc(evt.offsetX,evt.offsetY,35,0,2*Math.PI);
             ctx.stroke();
         }
-
+        
         var stopFish = 0 ;
         function caculate(evt) {
 
-            //自己算的結果 距離35是碰撞最大距離
+            //a = 圖片半徑
             //調整了板塊的中心位置xy值
             //計算每次點擊時，與所有板塊距離
             //如果小於35(a)，就取代a，並且獲取該區塊陣列位置[theNearest]
             //重複以上步驟至陣列長度結束
-            let a = 35;
+            let a = 57;
             for (var i = 0; i < RectArray.length; i++) {
-                var Posx = evt.clientX - (RectArray[i].x + 31);
-                var Posy = evt.clientY - (RectArray[i].y + 30);
+                var Posx = evt.offsetX - (RectArray[i].x + 50);
+                var Posy = evt.offsetY - (RectArray[i].y + 50);
                 let b = Math.hypot(Posx, Posy);
                 if (b < a) {
                     a = b;
