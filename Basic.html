@@ -68,18 +68,21 @@
 
 
         //創造一個物件 然後丟去上面Pro跑陣列
+        //用push可無限創造新物件
         var RectArray = [];
+        create();
+        function create(){
+            for (var i = 0; i < 40; i++) {
+                var x = Math.random() * (-30);
+                var y = Math.random() * innerHeight;
+                var dx = Math.random()*10;
+                var dy = Math.random();
+                var sqm = Math.floor(Math.random() * 2);
 
-        for (var i = 0; i < 40; i++) {
-            var x = Math.random() * innerWidth;
-            var y = Math.random() * innerHeight;
-            var dx = Math.random()*10;
-            var dy = Math.random();
-            var sqm = Math.floor(Math.random() * 2);
-
-            RectArray.push(new Pro(x, y, dx, dy, sqm));
+                RectArray.push(new Pro(x, y, dx, dy, sqm));
+                
+            }
         }
-
 
         //每秒清除殘影，並且利用每秒的特性(修改成interval)，每秒跑for迴圈丟新位置給上面畫圖
         // Clean和Give的角色(呼叫)
@@ -93,13 +96,13 @@
 
             for (let i = 0; i < RectArray.length; i++) {
                 RectArray[i].change();
-                console.log(RectArray.length);
+                console.log(RectArray);
             }
         }
 
         //呼叫每秒的函數 >> 修改成interval (為了動畫)
         setInterval(move, 50);
-        setInterval(mouseCirle, 50);
+        setInterval(create, 5000);
        // move();
 
         canvas.addEventListener("click", caculate);
@@ -111,7 +114,7 @@
         function mouseCirle (evt) {
             ctx.beginPath();
             ctx.beginPath();
-            ctx.arc(evt.offsetX,evt.offsetY,35,0,2*Math.PI);
+            ctx.arc(evt.offsetX, evt.offsetY, 35, 0, 2*Math.PI);
             ctx.stroke();
         }
         

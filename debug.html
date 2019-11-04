@@ -8,6 +8,7 @@
 </head>
 <body>
     <canvas> </canvas>
+    <button onclick="create()">click</button>
 
 
 <script>
@@ -29,12 +30,35 @@
     }
 
 
-animate();
-myFunction();
+    function Pro(x, y, dx, dy, sqm) {
+            this.x = x;
+            this.y = y;
+            this.dx = dx;
+            this.dy = dy;
+            this.sqm = sqm;}
 
-function myFunction() {
-    setInterval('alert("Hello");', 3000);
+
+
+
+          
+    var RectArray = [];
+
+function create(){
+
+    for (var i = 0; i < 40; i++) {
+        var x = Math.random() * innerWidth;
+        var y = Math.random() * innerHeight;
+        var dx = Math.random()*10;
+        var dy = Math.random();
+        var sqm = Math.floor(Math.random() * 2);
+
+        RectArray.push(new Pro(x, y, dx, dy, sqm));
+    }
+    console.log(RectArray);
 }
+
+
+
 
 </script>
 
