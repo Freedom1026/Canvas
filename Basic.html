@@ -5,7 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>水中世界1-1</title>
+    <style>
+        canvas{
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -68,7 +74,7 @@
 
 
         //創造一個物件 然後丟去上面Pro跑陣列
-        //用push可無限創造新物件
+        //用push可無限創造新物件.....記得設定停止!!!!!
         var RectArray = [];
         create();
         function create(){
@@ -96,27 +102,30 @@
 
             for (let i = 0; i < RectArray.length; i++) {
                 RectArray[i].change();
-                console.log(RectArray);
             }
         }
 
-        //呼叫每秒的函數 >> 修改成interval (為了動畫)
+        //呼叫每秒的函數和move >> 修改成interval (為了動畫)
         setInterval(move, 50);
-        setInterval(create, 5000);
-       // move();
-
+        
+        //呼叫創造物件函數 設立物件數到達多少 不再呼叫
+        if(RectArray.length < 80){
+            setInterval(create, 5000);
+            console.log(RectArray.length);
+        }   else{};
+       
         canvas.addEventListener("click", caculate);
 
 
-        //滑鼠移動
-        canvas.addEventListener("mousemove", mouseCirle);
+        // //滑鼠移動
+        // canvas.addEventListener("mousemove", mouseCirle);
         
-        function mouseCirle (evt) {
-            ctx.beginPath();
-            ctx.beginPath();
-            ctx.arc(evt.offsetX, evt.offsetY, 35, 0, 2*Math.PI);
-            ctx.stroke();
-        }
+        // function mouseCirle (evt) {
+        //     ctx.beginPath();
+        //     ctx.beginPath();
+        //     ctx.arc(evt.offsetX, evt.offsetY, 35, 0, 2*Math.PI);
+        //     ctx.stroke();
+        // }
         
         var stopFish = 0 ;
         function caculate(evt) {
