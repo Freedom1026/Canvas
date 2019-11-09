@@ -39,7 +39,8 @@
         var net = new Image();
         net.src='net.png';
 
-
+        var coinFish = new Image();
+        coinFish.src = 'coinFish.png';
 
         var timer = 0;
         //先畫不會動的圓圈，另外的部門改變函數，丟回來再畫
@@ -52,7 +53,8 @@
             this.sqm = sqm;
             this.draw = function () {
                 //ctx.fillRect( this.x, this.y, this.sqm, this.sqm);
-
+                ctx.font = '48px serif';
+                ctx.fillText(coin, innerWidth-200, 50);
                 ctx.drawImage(photoArray[this.sqm], this.x, this.y, 100, 100);
             }
 
@@ -63,23 +65,31 @@
                 if (this.sqm >= photoArray.length ){this.sqm = 0;}
                 this.draw();
             }
-
         }
 
+    //金幣動畫工廠...QAQ
 
-
-
-
-
-
+        function moneyPro(x,y){
+            this.x = x;
+            this.y = y;
+            if(blingCoin.length >= 1){
+                for(i = 0; i < blingCoin.length; i++){
+                ctx.drawImage(coinFish, blingCoin[i].x +25, blingCoin[i].y+25, 50, 50);
+                }
+                if(blingCoin.length >= 3){
+                blingCoin.shift();
+                }
+            }
+        }
 
         //創造一個物件 然後丟去上面Pro跑陣列
         //用push可無限創造新物件.....記得設定停止!!!!!
         var RectArray = [];
+        
         create();
         function create(){
-            for (var i = 0; i < 40; i++) {
-                var x = Math.random() * (-30);
+            for (var i = 0; i < 20; i++) {
+                var x = Math.random() * (-30)-100;
                 var y = Math.random() * innerHeight;
                 var dx = Math.random()*10;
                 var dy = Math.random();
@@ -93,26 +103,19 @@
         //每秒清除殘影，並且利用每秒的特性(修改成interval)，每秒跑for迴圈丟新位置給上面畫圖
         // Clean和Give的角色(呼叫)
         function move() {
-            
             ctx.clearRect(0, 0, innerWidth, innerHeight);
             //畫背景
             ctx.drawImage(background, 0, 0, innerWidth, innerHeight);
-            
-            
-
             for (let i = 0; i < RectArray.length; i++) {
                 RectArray[i].change();
             }
+            moneyPro();
         }
 
         //呼叫每秒的函數和move >> 修改成interval (為了動畫)
         setInterval(move, 50);
         
-        //呼叫創造物件函數 設立物件數到達多少 不再呼叫
-        if(RectArray.length < 80){
-            setInterval(create, 5000);
-            console.log(RectArray.length);
-        }   else{};
+     
        
         canvas.addEventListener("click", caculate);
 
@@ -127,13 +130,15 @@
         //     ctx.stroke();
         // }
         
-        var stopFish = 0 ;
+        var coin = 0 ;
+        var blingCoin = new Array;
+
         function caculate(evt) {
 
             //a = 圖片半徑
             //調整了板塊的中心位置xy值
             //計算每次點擊時，與所有板塊距離
-            //如果小於35(a)，就取代a，並且獲取該區塊陣列位置[theNearest]
+            //如果小於57(a)，就取代a，並且獲取該區塊陣列位置[theNearest]
             //重複以上步驟至陣列長度結束
             let a = 57;
             for (var i = 0; i < RectArray.length; i++) {
@@ -146,20 +151,24 @@
                 } else { };
             }
 
-            //如果有小於35距離的　就停掉那塊速度
+            //如果有小於35距離的　就刪掉那隻魚
             if (theNearest) {
-                RectArray[theNearest].dx = 0;
-                RectArray[theNearest].dy = 0;
-                stopFish += 1 ;
+                coin += 1 ;
+                blingCoin.push(new moneyPro(RectArray[theNearest].x, RectArray[theNearest].y));
+                RectArray.splice(theNearest, 1);
             }
-            console.log(theNearest);
+            console.log(RectArray.length);
 
             //清除掉超出螢幕的魚
             for (let i = 0; i < RectArray.length; i++) {
-            if(RectArray[i].x > innerWidth || RectArray[i].y > innerHeight){
-                    RectArray.splice( i, 1);
-                }
-             //   if(stopFish+RectArray.length == 20){}
+                if(RectArray[i].x > innerWidth || RectArray[i].y > innerHeight){
+                        RectArray.splice( i, 1);
+                    }
+
+                //畫面魚若小於40隻就生新一批（滑鼠點擊時）
+                if(RectArray.length < 40){
+                create();
+                }   else{};
             }
 
         }

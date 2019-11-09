@@ -10,53 +10,12 @@
     <canvas> </canvas>
     <button onclick="create()">click</button>
 
+    <div class="col-xl-3">1</div>
+    <div class="col-xl-3">2</div>
+    <div class="col-xl-3">3</div>
+    <div class="col-xl-3">4</div>
 
 <script>
-
-    var canvas = document.querySelector('canvas');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    var ctx = canvas.getContext('2d');
-    var photo1 = new Image;
-    var photo2 = new Image;
-    photo1.src = 'fish1.png';
-    photo2.src = 'fish0.png';
-
-    function animate(){
-        requestAnimationFrame(animate);
-        console.log('a');
-        ctx.drawImage( photo1, 20, 20);
-        ctx.drawImage( photo2, 70, 70);
-    }
-
-
-    function Pro(x, y, dx, dy, sqm) {
-            this.x = x;
-            this.y = y;
-            this.dx = dx;
-            this.dy = dy;
-            this.sqm = sqm;}
-
-
-
-
-          
-    var RectArray = [];
-
-function create(){
-
-    for (var i = 0; i < 40; i++) {
-        var x = Math.random() * innerWidth;
-        var y = Math.random() * innerHeight;
-        var dx = Math.random()*10;
-        var dy = Math.random();
-        var sqm = Math.floor(Math.random() * 2);
-
-        RectArray.push(new Pro(x, y, dx, dy, sqm));
-    }
-    console.log(RectArray);
-}
-
 
 
 
