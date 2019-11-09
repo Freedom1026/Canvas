@@ -25,8 +25,8 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         var ctx = canvas.getContext('2d');
-        //ctx.globalCompositeOperation = source-over;
-        //圖片先創陣列，才能個別宣告圖片
+
+        //圖片先創陣列，再個別宣告圖片
         var photoArray = new Array();
         photoArray[0] = new Image();
         photoArray[0].src = 'fish0.png';
@@ -35,14 +35,31 @@
         
         var background = new Image();
         background.src = 'background.jpg';
+        
+        // //不需要用到的圖片
+        // var net = new Image();
+        // net.src='net.png';
 
-        var net = new Image();
-        net.src='net.png';
+        var avatar = new Image();
+        avatar.src = 'GUI/head.png';
 
         var coinFish = new Image();
         coinFish.src = 'coinFish.png';
 
+        var GUIcoin = new Image();
+        GUIcoin.src = 'GUI/coin.png';
+
+        var TimeBomb = new Image();
+        TimeBomb.src = 'GUI/timer.png';
+
+        //計時功能
         var timer = 0;
+        setInterval(timeAdd, 1000);
+        function timeAdd(){
+            timer += 1;
+        }
+
+
         //先畫不會動的圓圈，另外的部門改變函數，丟回來再畫
         // Receive再Draw 和 Revised再Draw
         function Pro(x, y, dx, dy, sqm) {
@@ -53,8 +70,7 @@
             this.sqm = sqm;
             this.draw = function () {
                 //ctx.fillRect( this.x, this.y, this.sqm, this.sqm);
-                ctx.font = '48px serif';
-                ctx.fillText(coin, innerWidth-200, 50);
+                
                 ctx.drawImage(photoArray[this.sqm], this.x, this.y, 100, 100);
             }
 
@@ -67,7 +83,7 @@
             }
         }
 
-    //金幣動畫工廠...QAQ
+    //金幣動畫工廠
 
         function moneyPro(x,y){
             this.x = x;
@@ -84,18 +100,18 @@
 
         //創造一個物件 然後丟去上面Pro跑陣列
         //用push可無限創造新物件.....記得設定停止!!!!!
-        var RectArray = [];
+        var FishArray = [];
         
         create();
         function create(){
             for (var i = 0; i < 20; i++) {
                 var x = Math.random() * (-30)-100;
                 var y = Math.random() * innerHeight;
-                var dx = Math.random()*10;
+                var dx = Math.random()*5;
                 var dy = Math.random();
                 var sqm = Math.floor(Math.random() * 2);
 
-                RectArray.push(new Pro(x, y, dx, dy, sqm));
+                FishArray.push(new Pro(x, y, dx, dy, sqm));
                 
             }
         }
@@ -106,8 +122,25 @@
             ctx.clearRect(0, 0, innerWidth, innerHeight);
             //畫背景
             ctx.drawImage(background, 0, 0, innerWidth, innerHeight);
-            for (let i = 0; i < RectArray.length; i++) {
-                RectArray[i].change();
+            //GUI BAR
+            ctx.beginPath();
+            ctx.lineWidth = "6";
+            ctx.strokeStyle = "#3399ff";
+            ctx.rect(0, 0, innerWidth, 125);
+            ctx.stroke();
+            //設定字體
+            ctx.font = '48px serif';
+            //金幣獲得數
+            ctx.drawImage(GUIcoin, innerWidth-400, 40, 300, 50);
+            ctx.fillText(coin, innerWidth-250, 80);
+            //計時器
+            ctx.drawImage(TimeBomb, innerWidth-800, 40, 300, 50);
+            ctx.fillText(timer, innerWidth-650, 80);
+            //頭像
+            ctx.drawImage(avatar, 150, 10, 100, 100);
+
+            for (let i = 0; i < FishArray.length; i++) {
+                FishArray[i].change();
             }
             moneyPro();
         }
@@ -141,9 +174,9 @@
             //如果小於57(a)，就取代a，並且獲取該區塊陣列位置[theNearest]
             //重複以上步驟至陣列長度結束
             let a = 57;
-            for (var i = 0; i < RectArray.length; i++) {
-                var Posx = evt.offsetX - (RectArray[i].x + 50);
-                var Posy = evt.offsetY - (RectArray[i].y + 50);
+            for (var i = 0; i < FishArray.length; i++) {
+                var Posx = evt.offsetX - (FishArray[i].x + 50);
+                var Posy = evt.offsetY - (FishArray[i].y + 50);
                 let b = Math.hypot(Posx, Posy);
                 if (b < a) {
                     a = b;
@@ -154,19 +187,19 @@
             //如果有小於35距離的　就刪掉那隻魚
             if (theNearest) {
                 coin += 1 ;
-                blingCoin.push(new moneyPro(RectArray[theNearest].x, RectArray[theNearest].y));
-                RectArray.splice(theNearest, 1);
+                blingCoin.push(new moneyPro(FishArray[theNearest].x, FishArray[theNearest].y));
+                FishArray.splice(theNearest, 1);
             }
-            console.log(RectArray.length);
+            console.log(FishArray.length);
 
             //清除掉超出螢幕的魚
-            for (let i = 0; i < RectArray.length; i++) {
-                if(RectArray[i].x > innerWidth || RectArray[i].y > innerHeight){
-                        RectArray.splice( i, 1);
+            for (let i = 0; i < FishArray.length; i++) {
+                if(FishArray[i].x > innerWidth || FishArray[i].y > innerHeight){
+                        FishArray.splice( i, 1);
                     }
 
                 //畫面魚若小於40隻就生新一批（滑鼠點擊時）
-                if(RectArray.length < 40){
+                if(FishArray.length < 40){
                 create();
                 }   else{};
             }
