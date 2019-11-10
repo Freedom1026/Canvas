@@ -40,8 +40,8 @@
         // var net = new Image();
         // net.src='net.png';
 
-        var avatar = new Image();
-        avatar.src = 'GUI/head.png';
+        // var avatar = new Image();
+        // avatar.src = 'GUI/head.png';
 
         var coinFish = new Image();
         coinFish.src = 'coinFish.png';
@@ -51,6 +51,14 @@
 
         var TimeBomb = new Image();
         TimeBomb.src = 'GUI/timer.png';
+
+        //GUI 潛艇
+        var GUIsubmarine = new Image();
+        GUIsubmarine.src ="GUI/submarine.png";
+
+        var Locker = new Image();
+        Locker.src = "GUI/lock.png";
+
 
         //計時功能
         var timer = 0;
@@ -97,6 +105,30 @@
                 }
             }
         }
+    //潛艇動畫工廠
+    var subUpDown = -30;
+        function submarine(){
+            if(subUpDown >= -30){
+                subUpDown += 3;
+            }
+            if(subUpDown >= 30){
+                subUpDown -= 3 ;
+            }
+ 
+            //GUI BAR
+            ctx.drawImage(GUIsubmarine, 30, subUpDown, 240, 200);
+            //設定字體
+            ctx.font = '48px serif';
+            //金幣獲得數
+            ctx.drawImage(GUIcoin, 800, subUpDown, 250, 40);
+            ctx.fillText(coin, 920, subUpDown+35);
+            //計時器
+            ctx.drawImage(TimeBomb, 500, subUpDown, 250, 40);
+            ctx.fillText(timer, 620, subUpDown+35);
+            //未開啟功能
+            ctx.drawImage(Locker, 280, subUpDown, 120, 40);
+        }
+
 
         //創造一個物件 然後丟去上面Pro跑陣列
         //用push可無限創造新物件.....記得設定停止!!!!!
@@ -122,22 +154,7 @@
             ctx.clearRect(0, 0, innerWidth, innerHeight);
             //畫背景
             ctx.drawImage(background, 0, 0, innerWidth, innerHeight);
-            //GUI BAR
-            ctx.beginPath();
-            ctx.lineWidth = "6";
-            ctx.strokeStyle = "#3399ff";
-            ctx.rect(0, 0, innerWidth, 125);
-            ctx.stroke();
-            //設定字體
-            ctx.font = '48px serif';
-            //金幣獲得數
-            ctx.drawImage(GUIcoin, innerWidth-400, 40, 300, 50);
-            ctx.fillText(coin, innerWidth-250, 80);
-            //計時器
-            ctx.drawImage(TimeBomb, innerWidth-800, 40, 300, 50);
-            ctx.fillText(timer, innerWidth-650, 80);
-            //頭像
-            ctx.drawImage(avatar, 150, 10, 100, 100);
+            submarine();
 
             for (let i = 0; i < FishArray.length; i++) {
                 FishArray[i].change();
@@ -146,7 +163,7 @@
         }
 
         //呼叫每秒的函數和move >> 修改成interval (為了動畫)
-        setInterval(move, 50);
+        var start = setInterval(move, 50);
         
      
        
@@ -190,7 +207,7 @@
                 blingCoin.push(new moneyPro(FishArray[theNearest].x, FishArray[theNearest].y));
                 FishArray.splice(theNearest, 1);
             }
-            console.log(FishArray.length);
+            console.log(theNearest);
 
             //清除掉超出螢幕的魚
             for (let i = 0; i < FishArray.length; i++) {
@@ -207,7 +224,7 @@
         }
 
 
-
+//設定cleanInterval在click裡面
 
 
     </script>
