@@ -62,10 +62,17 @@
 
         //計時功能
         var timer = 0;
-        setInterval(timeAdd, 1000);
+        var TimeStart = setInterval(timeAdd, 1000);
         function timeAdd(){
             timer += 1;
+            if(timer > 1200){
+                clearInterval(TimeStart);
+                clearInterval(start);
+            }
         }
+
+        //破關所需金幣
+        var FinishCoin = 10;
 
 
         //先畫不會動的圓圈，另外的部門改變函數，丟回來再畫
@@ -197,12 +204,13 @@
                 let b = Math.hypot(Posx, Posy);
                 if (b < a) {
                     a = b;
-                    var theNearest = i;
+                    var theNearest = i + 1;
                 } else { };
             }
 
             //如果有小於35距離的　就刪掉那隻魚
             if (theNearest) {
+                theNearest -= 1 ;
                 coin += 1 ;
                 blingCoin.push(new moneyPro(FishArray[theNearest].x, FishArray[theNearest].y));
                 FishArray.splice(theNearest, 1);
@@ -216,12 +224,24 @@
                     }
 
                 //畫面魚若小於40隻就生新一批（滑鼠點擊時）
-                if(FishArray.length < 40){
+                if(FishArray.length < 20){
                 create();
                 }   else{};
             }
 
-        }
+            if(coin >= FinishCoin){
+            var promise1 = new Promise(function(resolve, reject) {
+            setTimeout(function() {
+                resolve('Okay');
+            }, 50);
+            });
+
+            promise1.then(function(value) {
+                clearInterval(start);
+            });
+            }
+            
+            }
 
 
 //設定cleanInterval在click裡面
