@@ -7,7 +7,6 @@
     <title>關卡選擇</title>
     <style>
     body{
-        background-color: aqua;
         text-align: center;
     }
 
@@ -15,7 +14,8 @@
         position: relative;
         margin: auto;
         width: 100%;
-        border: 10px solid black;
+        border: 10px solid rgb(29, 209, 149);
+        box-sizing: border-box;
     }
 
 
@@ -28,9 +28,6 @@
         top: 0;
     }
 
-    .user img{
-        width: 100%;
-    }
 
     </style>
 </head>
@@ -38,25 +35,13 @@
 
     <div class="maping">
     <img src="categoryBack.png" usemap="#image-map">
-        <map name="image-map">
-            <area target="_self" alt="水中世界1-1" title="水中世界1-1" href="basic.html" coords="126,301,43" shape="circle">
-            <area target="_self" alt="2stage" title="2stage" href="2stage" coords="259,144,44" shape="circle">
-            <area target="_self" alt="3stage" title="3stage" href="3stage" coords="504,168,45" shape="circle">
-            <area target="_self" alt="4stage" title="4stage" href="4stage" coords="712,288,44" shape="circle">
-            <area target="_self" alt="5stage" title="5stage" href="5stage" coords="895,394,46" shape="circle">
-            <area target="_self" alt="6stage" title="6stage" href="6stage" coords="1094,335,45" shape="circle">
-        </map>
+
+    <map name="image-map">
+        <area target="_self" alt="Stage_1-1" title="Stage_1-1" href="" coords="443,212,76" shape="circle">
+        <area target="_self" alt="Stage_1-2" title="Stage_1-2" href="" coords="361,443,79" shape="circle">
+        <area target="_self" alt="Stage_1-3" title="Stage_1-3" href="" coords="500,643,77" shape="circle">
+    </map>
     
-        <div class="imgBlock">
-            <div class="user" style="width: 80%; height: 60%; margin: auto;">
-            <img src="GUI/Head.png"><p>體力值</p>
-            <img src="GUI/heart.png"><p>金幣</p>
-            <img src="GUI/coin.png"><p></p>
-            </div>
-            <div>
-            <img src="GUI/cog-options.png" style="width: 50%;"><p></p>
-            </div>
-        </div>
     </div>
 
 </body>

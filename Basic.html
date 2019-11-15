@@ -29,9 +29,9 @@
         //圖片先創陣列，再個別宣告圖片
         var photoArray = new Array();
         photoArray[0] = new Image();
-        photoArray[0].src = 'fish0.png';
+        photoArray[0].src = 'GUI/Gfish0.png';
         photoArray[1] = new Image();
-        photoArray[1].src = 'fish1.png';
+        photoArray[1].src = 'GUI/Gfish1.png';
         
         var background = new Image();
         background.src = 'background.jpg';
@@ -61,19 +61,22 @@
 
 
         //計時功能
-        var timer = 0;
+        var timer = 30;
         var TimeStart = setInterval(timeAdd, 1000);
         function timeAdd(){
-            timer += 1;
-            if(timer > 1200){
+            timer -= 1;
+            if(timer < 0){
                 clearInterval(TimeStart);
                 clearInterval(start);
+                GameOverCoin = coin;
+                coin = 0;
             }
         }
 
-        //破關所需金幣
-        var FinishCoin = 10;
-
+        //破關目標金幣
+        var FinishCoin = 50;
+        //關卡結束時獲得金幣
+        var GameOverCoin = 0;
 
         //先畫不會動的圓圈，另外的部門改變函數，丟回來再畫
         // Receive再Draw 和 Revised再Draw
@@ -162,7 +165,7 @@
             //畫背景
             ctx.drawImage(background, 0, 0, innerWidth, innerHeight);
             submarine();
-
+            console.log(coin);
             for (let i = 0; i < FishArray.length; i++) {
                 FishArray[i].change();
             }
@@ -170,7 +173,7 @@
         }
 
         //呼叫每秒的函數和move >> 修改成interval (為了動畫)
-        var start = setInterval(move, 50);
+        var start = setInterval(move, 100);
         
      
        
@@ -215,7 +218,6 @@
                 blingCoin.push(new moneyPro(FishArray[theNearest].x, FishArray[theNearest].y));
                 FishArray.splice(theNearest, 1);
             }
-            console.log(theNearest);
 
             //清除掉超出螢幕的魚
             for (let i = 0; i < FishArray.length; i++) {
@@ -238,13 +240,14 @@
 
             promise1.then(function(value) {
                 clearInterval(start);
+                clearInterval(TimeStart);
+                GameOverCoin = coin;
+                coin = 0;
             });
             }
             
             }
 
-
-//設定cleanInterval在click裡面
 
 
     </script>
