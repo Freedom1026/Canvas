@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>水中世界1-1</title>
+    <style>
+        canvas{
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+    <canvas> </canvas>
+
+
+    <script>
+
+        //基本設定
+        var canvas = document.querySelector('canvas');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        var ctx = canvas.getContext('2d');
+
+        //圖片先創陣列，再個別宣告圖片
+        var photoArray = new Array();
+        photoArray[0] = new Image();
+        photoArray[0].src = 'GUI/Gfish0.png';
+        photoArray[1] = new Image();
+        photoArray[1].src = 'GUI/Gfish1.png';
+        
+        var background = new Image();
+        background.src = 'background.jpg';
+        
+        var coinFish = new Image();
+        coinFish.src = 'coinFish.png';
+
+        var GUIcoin = new Image();
+        GUIcoin.src = 'GUI/coin.png';
+
+        var TimeBomb = new Image();
+        TimeBomb.src = 'GUI/timer.png';
+
+        //GUI 潛艇
+        var GUIsubmarine = new Image();
+        GUIsubmarine.src ="GUI/submarine.png";
+        var submarine_hp = 100;
+
+        var Locker = new Image();
+        Locker.src = "GUI/lock.png";
+
+        canvas.addEventListener("click", caculate);
+        var start = setInterval(move, 100);
+
+        //計時功能
+        var timer = 60;
+        var TimeStart = setInterval(timeAdd, 1000);
+        function timeAdd(){
+            timer -= 1;
+            if(timer < 0){
+                clearInterval(TimeStart);
+                clearInterval(start);
+                GameOverCoin = coin;
+                localStorage.setItem('Coin', GameOverCoin);
+                coin = 0;
+            }
+        }
+
+        //關卡結束時獲得金幣
+        var GameOverCoin = 0;
+
+        function Pro(x, y, dx, dy, sqm) {
+            this.x = x;
+            this.y = y;
+            this.dx = dx;
+            this.dy = dy;
+            this.sqm = sqm;
+            this.draw = function () {
+                //ctx.fillRect( this.x, this.y, this.sqm, this.sqm);
+                
+                ctx.drawImage(photoArray[this.sqm], this.x, this.y, 100, 100);
+            }
+
+            this.change = function () {
+                this.x += this.dx;
+                this.y += this.dy;
+                this.sqm += 1;
+                if (this.sqm >= photoArray.length ){this.sqm = 0;}
+                this.draw();
+            }
+        }
+
+    //金幣動畫工廠
+        function moneyPro(x,y){
+            this.x = x;
+            this.y = y;
+            if(blingCoin.length >= 1){
+                for(i = 0; i < blingCoin.length; i++){
+                ctx.drawImage(coinFish, blingCoin[i].x +25, blingCoin[i].y+25, 50, 50);
+                }
+                if(blingCoin.length >= 3){
+                blingCoin.shift();
+                }
+            }
+        }
+    //潛艇動畫工廠
+    var subUpDown = -30;
+        function submarine(){
+            if(subUpDown < innerHeight/2){
+                subUpDown += 3;
+            }
+ 
+            //GUI BAR
+            ctx.drawImage(GUIsubmarine, innerWidth-250, subUpDown, 240, 200);
+            ctx.save();
+            ctx.fillStyle = "red";
+            ctx.fillRect(innerWidth-210, subUpDown+230, submarine_hp, 20);
+            ctx.restore();
+            //設定字體
+            ctx.font = '48px serif';
+            //金幣獲得數
+            ctx.drawImage(GUIcoin, 800, 30, 250, 40);
+            ctx.fillText(coin, 920, 65);
+            //計時器
+            ctx.drawImage(TimeBomb, 500, 30, 250, 40);
+            ctx.fillText(timer, 620, 65);
+            //未開啟功能
+            ctx.drawImage(Locker, 280, 30, 120, 40);
+
+            if(submarine_hp <= 0){
+                clearInterval(start);
+                clearInterval(TimeStart);
+                GameOverCoin = coin;
+                coin = 0;
+            }
+
+            let c = 142;
+                    for (var i = 0; i < FishArray.length; i++) {
+                    var PosSubX = (FishArray[i].x + 50)-(innerWidth-150);
+                    var PosSubY = (FishArray[i].y + 50)-(subUpDown+100);
+                    let d = Math.hypot(PosSubX, PosSubY);
+                    if (d < c) {
+                        c = d;
+                        submarine_hp -= 1;
+                        console.log(submarine_hp);
+                    } else { };
+                }
+
+        }
+
+
+        var FishArray = [];
+        create();
+        function create(){
+            for (var i = 0; i < 20; i++) {
+                var x = Math.random() * (-30)-100;
+                var y = Math.random() * innerHeight;
+                var dx = Math.random()*5;
+                var dy = Math.random();
+                var sqm = Math.floor(Math.random() * 2);
+
+                FishArray.push(new Pro(x, y, dx, dy, sqm));
+                
+            }
+        }
+
+        function move() {
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            ctx.drawImage(background, 0, 0, innerWidth, innerHeight);
+            submarine();
+            for (let i = 0; i < FishArray.length; i++) {
+                FishArray[i].change();
+            }
+            moneyPro();
+        }
+
+        var coin = 0 ;
+        var blingCoin = new Array;
+
+        function caculate(evt) {
+
+                let a = 57;
+                for (var i = 0; i < FishArray.length; i++) {
+                    var Posx = evt.offsetX - (FishArray[i].x + 50);
+                    var Posy = evt.offsetY - (FishArray[i].y + 50);
+                    let b = Math.hypot(Posx, Posy);
+                    if (b < a) {
+                        a = b;
+                        var theNearest = i + 1;
+                    } else { };
+                }
+
+                if (theNearest) {
+                    theNearest -= 1 ;
+                    coin += 1 ;
+                    blingCoin.push(new moneyPro(FishArray[theNearest].x, FishArray[theNearest].y));
+                    FishArray.splice(theNearest, 1);
+                }
+
+                //清除掉超出螢幕的魚
+                for (let i = 0; i < FishArray.length; i++) {
+                    if(FishArray[i].x > innerWidth || FishArray[i].y > innerHeight){
+                            FishArray.splice( i, 1);
+                        }
+                    if(FishArray.length < 20){
+                    create();
+                    }   else{};
+                }
+            
+            }
+
+
+
+    </script>
+
+
+</body>
+
+</html>
