@@ -44,10 +44,14 @@
         var TimeBomb = new Image();
         TimeBomb.src = 'GUI/timer.png';
 
+        //獲得道具總列
+        var item = JSON.parse(localStorage.getItem("item"));
+        var itemA = item[0];
+
         //GUI 潛艇
         var GUIsubmarine = new Image();
         GUIsubmarine.src = "GUI/submarine.png";
-        var submarine_hp = 100;
+        var submarine_hp = 80;
 
         var Locker = new Image();
         Locker.src = "GUI/lock.png";
@@ -56,7 +60,7 @@
         var start = setInterval(move, 100);
 
         //計時功能
-        var timer = 60;
+        var timer = 10;
         var TimeStart = setInterval(timeAdd, 1000);
         function timeAdd() {
             timer -= 1;
@@ -65,14 +69,15 @@
                 clearInterval(start);
                 GameOverCoin = coin;
                 if (GameOverCoin < 20) {
-                    localStorage.setItem('rank_1', "oneStar");
+                    localStorage.setItem('rank_2', "oneStar");
                 }
                 else if (GameOverCoin < 40) {
-                    localStorage.setItem('rank_1', "twoStar");
+                    localStorage.setItem('rank_2', "twoStar");
                 }
-                else { localStorage.setItem('rank_1', "threeStar"); }
+                else { localStorage.setItem('rank_2', "threeStar"); }
                 GameOverCoin += parseInt(localStorage.getItem('Coin'));
                 localStorage.setItem('Coin', GameOverCoin);
+                localStorage.setItem("item", JSON.stringify(item))
                 coin = 0;
             }
         }
@@ -126,10 +131,10 @@
             }
 
             //GUI BAR
-            ctx.drawImage(GUIsubmarine, innerWidth - 250, subUpDown, 240, 200);
+            ctx.drawImage(GUIsubmarine, innerWidth - 500, subUpDown, 240, 200);
             ctx.save();
             ctx.fillStyle = "red";
-            ctx.fillRect(innerWidth - 210, subUpDown + 230, submarine_hp, 20);
+            ctx.fillRect(innerWidth - 460, subUpDown + 230, submarine_hp, 20);
             ctx.restore();
             //設定字體
             ctx.font = '48px serif';
@@ -140,18 +145,20 @@
             ctx.drawImage(TimeBomb, 500, 30, 250, 40);
             ctx.fillText(timer, 620, 65);
             //未開啟功能
-            ctx.drawImage(Locker, 280, 30, 120, 40);
+            var itemA = item[0];
+            var showA = (itemA) ? ctx.fillText(itemA, 200, 80) : 0;
 
             if (submarine_hp <= 0) {
                 clearInterval(start);
                 clearInterval(TimeStart);
+                localStorage.setItem("item", JSON.stringify(item))
                 GameOverCoin = coin;
                 coin = 0;
             }
 
             let c = 142;
             for (var i = 0; i < FishArray.length; i++) {
-                var PosSubX = (FishArray[i].x + 50) - (innerWidth - 150);
+                var PosSubX = (FishArray[i].x + 50) - (innerWidth - 450);
                 var PosSubY = (FishArray[i].y + 50) - (subUpDown + 100);
                 let d = Math.hypot(PosSubX, PosSubY);
                 if (d < c) {
@@ -166,15 +173,14 @@
         var FishArray = [];
         create();
         function create() {
-            for (var i = 0; i < 20; i++) {
+            for (var i = 0; i < 40; i++) {
                 var x = Math.random() * (-30) - 100;
                 var y = Math.random() * innerHeight;
-                var dx = Math.random() * 5;
+                var dx = Math.random() * 20 + 20;
                 var dy = Math.random();
                 var sqm = Math.floor(Math.random() * 2);
 
                 FishArray.push(new Pro(x, y, dx, dy, sqm));
-
             }
         }
 
@@ -207,6 +213,32 @@
                 } else { };
             }
 
+            //道具使用
+            let e = 57;
+            var PosItemX = evt.offsetX - 200;
+            var PosItemY = evt.offsetY - 80;
+            let f = Math.hypot(PosItemX, PosItemY);
+            if (f < e) {
+                switch (itemA) {
+                    case 'Recover':
+                        submarine_hp += 20;
+                        console.log("補血了");
+                        item.splice(0, 1);
+                        break;
+                    case 'Double':
+                        coin *= 2;
+                        console.log("金錢雙倍");
+                        item.splice(0, 1);
+                        break;
+                    case '???':
+                        console.log("test3");
+                        break;
+                    default:
+                        console.log("test1");
+                        break;
+                }
+            }
+
             if (theNearest) {
                 theNearest -= 1;
                 coin += 1;
@@ -219,10 +251,8 @@
                 if (FishArray[i].x > innerWidth || FishArray[i].y > innerHeight) {
                     FishArray.splice(i, 1);
                 }
+
             }
-
-            //使用道具
-
 
         }
 
