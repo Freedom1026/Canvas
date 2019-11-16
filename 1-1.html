@@ -65,12 +65,12 @@
                 clearInterval(start);
                 GameOverCoin = coin;
                 if (GameOverCoin < 20) {
-                    localStorage.setItem('rank_1', "oneStar");
+                    localStorage.setItem('rank_1', "1stars");
                 }
                 else if (GameOverCoin < 40) {
-                    localStorage.setItem('rank_1', "twoStar");
+                    localStorage.setItem('rank_1', "2stars");
                 }
-                else { localStorage.setItem('rank_1', "threeStar"); }
+                else { localStorage.setItem('rank_1', "3stars"); }
                 GameOverCoin += parseInt(localStorage.getItem('Coin'));
                 localStorage.setItem('Coin', GameOverCoin);
                 coin = 0;
