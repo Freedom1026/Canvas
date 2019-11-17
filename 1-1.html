@@ -120,7 +120,7 @@
 
         //潛艇動畫工廠
         var subUpDown = -30;
-        function submarine() {
+        function Submarine() {
             if (subUpDown < innerHeight / 2) {
                 subUpDown += 3;
             }
@@ -181,7 +181,7 @@
         function move() {
             ctx.clearRect(0, 0, innerWidth, innerHeight);
             ctx.drawImage(background, 0, 0, innerWidth, innerHeight);
-            submarine();
+            Submarine();
             for (let i = 0; i < FishArray.length; i++) {
                 FishArray[i].change();
             }

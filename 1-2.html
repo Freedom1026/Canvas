@@ -145,8 +145,8 @@
             ctx.drawImage(TimeBomb, 500, 30, 250, 40);
             ctx.fillText(timer, 620, 65);
             //未開啟功能
-            var itemA = item[0];
-            var showA = (itemA) ? ctx.fillText(itemA, 200, 80) : 0;
+            itemA = item[0];
+            var showA = (itemA)? ctx.fillText(itemA, 200, 80) : 0;
 
             if (submarine_hp <= 0) {
                 clearInterval(start);
@@ -233,6 +233,10 @@
                     case '???':
                         console.log("test3");
                         break;
+                    case 'test':
+                        console.log("test4");
+                        item.splice(0, 1);
+                        break;                    
                     default:
                         console.log("test1");
                         break;
