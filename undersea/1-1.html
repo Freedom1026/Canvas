@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>水中世界1-2</title>
+    <title>水中世界1-1</title>
     <style>
         canvas {
             cursor: pointer;
@@ -28,52 +28,40 @@
         //圖片先創陣列，再個別宣告圖片
         var photoArray = new Array();
         photoArray[0] = new Image();
-        photoArray[0].src = 'GUI/Gfish0.png';
+        photoArray[0].src = '../GUI/Bfish0.png';
         photoArray[1] = new Image();
-        photoArray[1].src = 'GUI/Gfish1.png';
+        photoArray[1].src = '../GUI/Bfish1.png';
 
         var background = new Image();
-        background.src = 'background.jpg';
+        background.src = '../GUI/background.jpg';
 
         var coinFish = new Image();
-        coinFish.src = 'coinFish.png';
+        coinFish.src = '../GUI/coinFish.png';
 
         var GUIcoin = new Image();
-        GUIcoin.src = 'GUI/coin.png';
+        GUIcoin.src = '../GUI/coin.png';
 
         var TimeBomb = new Image();
-        TimeBomb.src = 'GUI/timer.png';
-        
-        //音效
-        var audioEffect = new Audio("GUI/ding.wav");
-        var BGmusic = new Audio("GUI/Kindergarden.mp3");
-        var BGMflag = false;
-        
-
-        //獲得道具總列
-        var item = JSON.parse(localStorage.getItem("item"));
-        var itemA = item[0];
-
-        //道具圖片
-        var itemArray = new Array();
-        itemArray[0] = new Image();
-        itemArray[0].src = 'GUI/addHP.png';
-        itemArray[1] = new Image();
-        itemArray[1].src = 'GUI/coinDouble.png';
+        TimeBomb.src = '../GUI/timer.png';
 
         //GUI 潛艇
         var GUIsubmarine = new Image();
-        GUIsubmarine.src = "GUI/submarine.png";
-        var submarine_hp = 80;
+        GUIsubmarine.src = "../GUI/submarine.png";
+        var submarine_hp = 100;
 
         var Locker = new Image();
-        Locker.src = "GUI/lock.png";
+        Locker.src = "../GUI/lock.png";
+
+        //音效
+        var audioEffect = new Audio("../GUI/ding.wav");
+        var BGmusic = new Audio("../GUI/Kindergarden.mp3");
+        var BGMflag = false;
 
         canvas.addEventListener("click", caculate);
         var start = setInterval(move, 100);
 
         //計時功能
-        var timer = 30;
+        var timer = 60;
         var TimeStart = setInterval(timeAdd, 1000);
         function timeAdd() {
             timer -= 1;
@@ -82,17 +70,17 @@
                 clearInterval(start);
                 GameOverCoin = coin;
                 if (GameOverCoin < 20) {
-                    localStorage.setItem('rank_2', "oneStar");
+                    localStorage.setItem('rank_1', "1stars");
                 }
                 else if (GameOverCoin < 40) {
-                    localStorage.setItem('rank_2', "twoStar");
+                    localStorage.setItem('rank_1', "2stars");
                 }
-                else { localStorage.setItem('rank_2', "threeStar"); }
+                else { localStorage.setItem('rank_1', "3stars"); }
                 GameOverCoin += parseInt(localStorage.getItem('Coin'));
                 localStorage.setItem('Coin', GameOverCoin);
-                localStorage.setItem("item", JSON.stringify(item))
                 coin = 0;
-                location.replace("WebHtml/success.html");
+
+                location.replace("../RESULT/success.html");
             }
         }
 
@@ -139,16 +127,16 @@
 
         //潛艇動畫工廠
         var subUpDown = -30;
-        function submarine() {
+        function Submarine() {
             if (subUpDown < innerHeight / 2) {
                 subUpDown += 3;
             }
 
             //GUI BAR
-            ctx.drawImage(GUIsubmarine, innerWidth - 500, subUpDown, 240, 200);
+            ctx.drawImage(GUIsubmarine, innerWidth - 250, subUpDown, 240, 200);
             ctx.save();
             ctx.fillStyle = "red";
-            ctx.fillRect(innerWidth - 460, subUpDown + 230, submarine_hp, 20);
+            ctx.fillRect(innerWidth - 210, subUpDown + 230, submarine_hp, 20);
             ctx.restore();
             //設定字體
             ctx.font = '48px serif';
@@ -159,38 +147,19 @@
             ctx.drawImage(TimeBomb, 500, 30, 250, 40);
             ctx.fillText(timer, 620, 65);
             //未開啟功能
-            itemA = item[0];
-            if(itemA){
-                switch (itemA) {
-                        case 'Recover':
-                            ctx.drawImage(itemArray[0], 200,30);
-                            break;
-                        case 'Double':
-                            ctx.drawImage(itemArray[1], 200,30);
-                            break;
-                        case '???':
-                            ctx.fillText("???", 200, 30);
-                            break;
-                        case 'test':
-                            ctx.fillText("test", 200, 30);
-                            break;                    
-                        default:
-                            console.log("test1");
-                            break;
-                    }
-            }
+            ctx.drawImage(Locker, 280, 30, 120, 40);
+
             if (submarine_hp <= 0) {
                 clearInterval(start);
                 clearInterval(TimeStart);
-                localStorage.setItem("item", JSON.stringify(item))
                 GameOverCoin = coin;
                 coin = 0;
-                location.replace("WebHtml/fail.html");
+                location.replace("../RESULT/fail.html");
             }
 
             let c = 142;
             for (var i = 0; i < FishArray.length; i++) {
-                var PosSubX = (FishArray[i].x + 50) - (innerWidth - 450);
+                var PosSubX = (FishArray[i].x + 50) - (innerWidth - 150);
                 var PosSubY = (FishArray[i].y + 50) - (subUpDown + 100);
                 let d = Math.hypot(PosSubX, PosSubY);
                 if (d < c) {
@@ -205,21 +174,22 @@
         var FishArray = [];
         create();
         function create() {
-            for (var i = 0; i < 40; i++) {
+            for (var i = 0; i < 20; i++) {
                 var x = Math.random() * (-30) - 100;
                 var y = Math.random() * innerHeight;
-                var dx = Math.random() * 20 + 20;
+                var dx = Math.random() * 5;
                 var dy = Math.random();
                 var sqm = Math.floor(Math.random() * 2);
 
                 FishArray.push(new Pro(x, y, dx, dy, sqm));
+
             }
         }
 
         function move() {
             ctx.clearRect(0, 0, innerWidth, innerHeight);
             ctx.drawImage(background, 0, 0, innerWidth, innerHeight);
-            submarine();
+            Submarine();
             for (let i = 0; i < FishArray.length; i++) {
                 FishArray[i].change();
             }
@@ -229,10 +199,9 @@
                 } else { };
             //清除掉超出螢幕的魚
             for (let i = 0; i < FishArray.length; i++) {
-                if (FishArray[i].x > innerWidth || FishArray[i].y > innerHeight) {
+            if (FishArray[i].x > innerWidth || FishArray[i].y > innerHeight) {
                     FishArray.splice(i, 1);
                 }
-
             }
         }
 
@@ -250,37 +219,6 @@
                     a = b;
                     var theNearest = i + 1;
                 } else { };
-            }
-
-            //道具使用
-            let e = 50;
-            var PosItemX = evt.offsetX - 230;
-            var PosItemY = evt.offsetY - 70;
-            let f = Math.hypot(PosItemX, PosItemY);
-            if (f < e) {
-                switch (itemA) {
-                    case 'Recover':
-                        submarine_hp += 20;
-                        console.log("補血了");
-                        item.splice(0, 1);
-                        break;
-                    case 'Double':
-                        coin *= 2;
-                        console.log("金錢雙倍");
-                        item.splice(0, 1);
-                        break;
-                    case '???':
-                        item.splice(0, 1);
-                        console.log("test3");
-                        break;
-                    case 'test':
-                        console.log("test4");
-                        item.splice(0, 1);
-                        break;                    
-                    default:
-                        console.log("test1");
-                        break;
-                }
             }
 
             if (theNearest) {
