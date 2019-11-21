@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 
 <head>
     <meta charset="UTF-8">
@@ -137,11 +137,11 @@
         <span class="level" onclick="subLife(3)"><img src="GUI/stars-blank.png" alt=""><p>1-3</p></span>
         <img src="GUI/1-3.png" alt="">
         <span class="level" onclick="subLife(4)"><img src="GUI/stars-blank.png" alt=""><p>1-4</p></span>
-        <img src="GUI/1-1.png" alt="">
+        <img src="GUI/1-4.png" alt="">
         <span class="level" onclick="subLife(5)"><img src="GUI/stars-blank.png" alt=""><p>1-5</p></span>
-        <img src="GUI/1-1.png" alt="">
+        <img src="GUI/1-4.png" alt="">
         <span class="level" onclick="subLife(6)"><img src="GUI/stars-blank.png" alt=""><p>1-6</p></span>
-        <img src="GUI/1-1.png" alt="">
+        <img src="GUI/1-4.png" alt="">
 
         <div class="sub_place">
             <img src="GUI/submarine.png" width="150px">
@@ -170,7 +170,6 @@
             localStorage.clear();
             localStorage.setItem("life", 10);
             localStorage.setItem("Coin", 0);
-            buythings.push("test");
             localStorage.setItem("item", JSON.stringify(buythings));
             location.reload();
         }
@@ -188,7 +187,15 @@
             imgTags[0].src = "GUI/"+localStorage.getItem("rank_1")+".png";
             nextLevel = true;
         } 
-        console.log(levelTags[1])
+        if(localStorage.getItem("rank_2")){
+            imgTags[2].src = "GUI/"+localStorage.getItem("rank_2")+".png";
+        } 
+        if(localStorage.getItem("rank_3")){
+            imgTags[4].src = "GUI/"+localStorage.getItem("rank_3")+".png";
+        } 
+
+
+        console.log(imgTags[1])
 
         // for( i = 0 ;i < levelTags.length; i++){
         //         levelTags[i].setAttribute( "onClick", "subLife("+i+");" );
@@ -197,7 +204,7 @@
         function subLife(where){
             // where += 1;
             if(window.confirm('進去要扣一顆愛心喔！')){
-                window.open("1-"+where+".html");
+                window.open("undersea/1-"+where+".html");
             }
         }
 
