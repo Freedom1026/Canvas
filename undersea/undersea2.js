@@ -45,7 +45,7 @@ itemArray[1].src = '../GUI/coinDouble.png';
 //GUI 潛艇
 var GUIsubmarine = new Image();
 GUIsubmarine.src = "../GUI/submarine.png";
-var submarine_hp = 1000;
+var submarine_hp = 100;
 
 var Locker = new Image();
 Locker.src = "../GUI/lock.png";
