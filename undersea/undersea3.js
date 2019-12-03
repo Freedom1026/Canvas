@@ -49,6 +49,8 @@ itemArray[0] = new Image();
 itemArray[0].src = '../GUI/addHP.png';
 itemArray[1] = new Image();
 itemArray[1].src = '../GUI/coinDouble.png';
+itemArray[2] = new Image();
+itemArray[2].src = '../GUI/time.png';
 
 //GUI 潛艇
 var GUIsubmarine = new Image();
@@ -180,8 +182,8 @@ function submarine() {
                 case 'Double':
                     ctx.drawImage(itemArray[1], 200,30);
                     break;
-                case '???':
-                    ctx.fillText("???", 200, 80);
+                case 'Bomb':
+                    ctx.drawImage(itemArray[2], 200,30, 50, 50);
                     break;
                 case 'test':
                     ctx.fillText("test", 200, 80);
@@ -209,6 +211,16 @@ function submarine() {
         } else { };
     }
 
+    for (var i = 0; i < FishArray2.length; i++) {
+        var PosSubX = (FishArray2[i].x + 50) - (innerWidth - 450);
+        var PosSubY = (FishArray2[i].y + 50) - (subUpDown + 100);
+        let h = Math.hypot(PosSubX, PosSubY);
+        if (h < c) {
+            c = h;
+            submarine_hp -= 1;
+        } else { };
+    }
+
 }
 
 
@@ -221,7 +233,7 @@ function create() {
     for (var i = 0; i < 40; i++) {
         var x = Math.random() * (-30) - 100;
         var y = Math.random() * innerHeight;
-        var dx = Math.random() * 20 + 20;
+        var dx = Math.random() * 20 + 3;
         var dy = Math.random();
         var sqm = Math.floor(Math.random() * 2);
 
@@ -333,8 +345,10 @@ function caculate(evt) {
                 console.log("金錢雙倍");
                 item.splice(0, 1);
                 break;
-            case '???':
-                item.splice(0, 1);
+            case 'Bomb':
+				FishArray.splice(0, 20);
+				coin += 20;
+				item.splice(0, 1);
                 console.log("test3");
                 break;
             case 'test':
