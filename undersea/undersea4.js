@@ -9,9 +9,9 @@ var ctx = canvas.getContext('2d');
 //圖片先創陣列，再個別宣告圖片
 var GreenFish = new Array();
 GreenFish[0] = new Image();
-GreenFish[0].src = '../GUI/Gfish0.png';
+GreenFish[0].src = '../GUI/ballfish0.png';
 GreenFish[1] = new Image();
-GreenFish[1].src = '../GUI/Gfish1.png';
+GreenFish[1].src = '../GUI/ballfish1.png';
 
 var BlackFish = new Array();
 BlackFish[0] = new Image();
@@ -202,9 +202,9 @@ function submarine() {
         location.replace("../RESULT/fail.html");
     }
 
-    let c = 142;
+    let c = 102;
     for (var i = 0; i < FishArray.length; i++) {
-        var PosSubX = (FishArray[i].x + 50) - (innerWidth - 450);
+        var PosSubX = (FishArray[i].x + 50) - (innerWidth - 405);
         var PosSubY = (FishArray[i].y + 50) - (subUpDown + 100);
         let d = Math.hypot(PosSubX, PosSubY);
         if (d < c) {
@@ -348,8 +348,6 @@ function caculate(evt) {
                 item.splice(0, 1);
                 break;
             case 'Bomb':
-				FishArray.splice(0, 20);
-				coin += 20;
 				item.splice(0, 1);
                 console.log("test3");
                 break;

@@ -119,7 +119,7 @@
 
 <body>
 
-        <h1 style="background-color: rgb(103, 243, 208); margin-left: 30%; width: 400px;">潛艇保衛戰</h1>
+        <h1><img style=" margin-left: 30%; width: 400px;" src="GUI/title.png" alt=""></h1>
         
     <div class="user">
         <input type="image" id="restart" src="GUI/head.png" alt="" onclick="refun()"><br>
@@ -137,11 +137,11 @@
         <span class="level" onclick="subLife(3)"><img src="GUI/stars-blank.png" alt=""><p>1-3</p></span>
         <img src="GUI/1-3.png" alt="">
         <span class="level" onclick="subLife(4)"><img src="GUI/stars-blank.png" alt=""><p>1-4</p></span>
-        <img src="GUI/1-4.png" alt="">
-        <span class="level"><img src="GUI/stars-blank.png" alt=""><p>1-5</p></span>
-        <img src="GUI/1-4.png" alt="">
+        <img src="GUI/1-4.png" alt=""><br>
+        <span class="level" onclick="subLife(5)"><img src="GUI/stars-blank.png" alt=""><p>1-5</p></span>
+        <img src="GUI/1-5.png" alt="">
         <span class="level"><img src="GUI/stars-blank.png" alt=""><p>1-6</p></span>
-        <img src="GUI/1-4.png" alt="">
+        <img src="GUI/1-6.png" alt="">
 
         <div class="sub_place">
             <img src="GUI/submarine.png" width="150px">
@@ -173,9 +173,13 @@
             localStorage.setItem("item", JSON.stringify(buythings));
             location.reload();
         }
-
+        
         if (localStorage.getItem("life")) {
             life.innerHTML = "♥:   " + localStorage.getItem("life");
+            if(localStorage.getItem("life")<0){
+                document.getElementById("restart").src = "GUI/user2.png";
+            }
+        
         }
         if (localStorage.getItem("Coin")) {
             Money.innerHTML = "$:   " + localStorage.getItem("Coin");
@@ -197,8 +201,6 @@
             imgTags[4].src = "GUI/"+localStorage.getItem("rank_4")+".png";
         } 
 
-
-        console.log(imgTags[1])
 
         // for( i = 0 ;i < levelTags.length; i++){
         //         levelTags[i].setAttribute( "onClick", "subLife("+i+");" );

@@ -200,9 +200,9 @@ function submarine() {
         location.replace("../RESULT/fail.html");
     }
 
-    let c = 142;
+    let c = 102;
     for (var i = 0; i < FishArray.length; i++) {
-        var PosSubX = (FishArray[i].x + 50) - (innerWidth - 450);
+        var PosSubX = (FishArray[i].x + 50) - (innerWidth - 405);
         var PosSubY = (FishArray[i].y + 50) - (subUpDown + 100);
         let d = Math.hypot(PosSubX, PosSubY);
         if (d < c) {

@@ -9,9 +9,9 @@ var ctx = canvas.getContext('2d');
 //圖片先創陣列，再個別宣告圖片
 var photoArray = new Array();
 photoArray[0] = new Image();
-photoArray[0].src = '../GUI/Gfish0.png';
+photoArray[0].src = '../GUI/ballfish0.png';
 photoArray[1] = new Image();
-photoArray[1].src = '../GUI/Gfish1.png';
+photoArray[1].src = '../GUI/ballfish1.png';
 
 var background = new Image();
 background.src = '../GUI/background.jpg';
@@ -49,35 +49,54 @@ var GUIsubmarine = new Image();
 GUIsubmarine.src = "../GUI/submarine.png";
 var submarine_hp = 100;
 
-var Locker = new Image();
-Locker.src = "../GUI/lock.png";
+//魔王
+var Boss_img = new Image();
+Boss_img.src = "../GUI/boss.png";
+var boss_hp =50;
+
 
 canvas.addEventListener("click", caculate);
 var start = setInterval(move, 100);
 
-//計時功能
-var timer = 30;
-var TimeStart = setInterval(timeAdd, 1000);
-function timeAdd() {
-    timer -= 1;
-    if (timer < 0) {
-        clearInterval(TimeStart);
+
+//魔王
+var boss_x = 400;
+var boss_y = 200;
+var boss_dx = 3;
+function boss(){
+    //GUI BAR
+    if(boss_x < 100 || boss_x >900){
+        boss_dx *= (-1);
+    }
+    boss_x += boss_dx;
+    ctx.drawImage(Boss_img, boss_x, boss_y, 240, 200);
+    ctx.save();
+    ctx.fillStyle = "red";
+    ctx.fillRect(boss_x + 30, 430, boss_hp, 20);
+    ctx.restore();
+
+    if (boss_hp <= 0) {
         clearInterval(start);
         GameOverCoin = coin;
         if (GameOverCoin < 20) {
-            localStorage.setItem('rank_2', "1stars");
+            localStorage.setItem('rank_4', "1stars");
         }
         else if (GameOverCoin < 40) {
-            localStorage.setItem('rank_2', "2stars");
+            localStorage.setItem('rank_4', "2stars");
         }
-        else { localStorage.setItem('rank_2', "3stars"); }
+        else { localStorage.setItem('rank_4', "3stars"); }
         GameOverCoin += parseInt(localStorage.getItem('Coin'));
         localStorage.setItem('Coin', GameOverCoin);
         localStorage.setItem("item", JSON.stringify(item))
         coin = 0;
         location.replace("../RESULT/success.html");
     }
+
+
 }
+
+
+
 
 //扣體力值
 var health = localStorage.getItem("life") - 1;
@@ -98,6 +117,15 @@ function Pro(x, y, dx, dy, sqm) {
     }
 
     this.change = function () {
+        // if(this.y > (subUpDown + 100))
+        // { this.dy *= (-1);}
+        // else if(this.y < (subUpDown + 100))
+        // { this.dy *= (1);}
+        if(this.x > (innerWidth - 200))
+        { this.dx *= (-1);}  
+        if(this.dx < 0 && this.x < (innerWidth-600)){
+            this.dx *= (-1);
+        }      
         this.x += this.dx;
         this.y += this.dy;
         this.sqm += 1;
@@ -138,9 +166,6 @@ function submarine() {
     //金幣獲得數
     ctx.drawImage(GUIcoin, 800, 30, 250, 40);
     ctx.fillText(coin, 920, 65);
-    //計時器
-    ctx.drawImage(TimeBomb, 500, 30, 250, 40);
-    ctx.fillText(timer, 620, 65);
     //道具
     itemA = item[0];
     if(itemA){
@@ -164,7 +189,6 @@ function submarine() {
     }
     if (submarine_hp <= 0) {
         clearInterval(start);
-        clearInterval(TimeStart);
         localStorage.setItem("item", JSON.stringify(item))
         GameOverCoin = coin;
         coin = 0;
@@ -215,9 +239,9 @@ function move() {
         if (FishArray[i].x > innerWidth || FishArray[i].y > innerHeight) {
             FishArray.splice(i, 1);
         }
-
     }
-}
+    boss();
+    }
 
 var coin = 0;
 var blingCoin = new Array;
@@ -253,8 +277,6 @@ function caculate(evt) {
                 item.splice(0, 1);
                 break;
             case 'Bomb':
-				FishArray.splice(0, 20);
-				coin += 20;
 				item.splice(0, 1);
                 console.log("test3");
                 break;
@@ -276,6 +298,14 @@ function caculate(evt) {
         audioEffect.play();
     }
 
+
+    let h = 100;
+        var BPosx = evt.offsetX - (boss_x + 130);
+        var BPosy = evt.offsetY - (boss_y + 100);
+        let g = Math.hypot(BPosx, BPosy);
+        if (g < h) {
+            boss_hp -= 1;
+        } else { };
 
 
 }
