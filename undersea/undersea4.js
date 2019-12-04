@@ -106,7 +106,11 @@ function Pro(x, y, dx, dy, sqm) {
     }
 
     this.change = function () {
-		((this.y - subUpDown - 100) > 0)? this.dy *= (-1) : this.dy *= 1;
+		if(this.x > (innerWidth - 200))
+        { this.dx *= (-1);}  
+        if(this.dx < 0 && this.x < (innerWidth-600)){
+            this.dx *= (-1);
+        }      
 		console.log(this.dy);
         this.x += this.dx;
         this.y += this.dy;
