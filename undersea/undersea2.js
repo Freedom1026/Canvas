@@ -152,7 +152,7 @@ function submarine() {
                     ctx.drawImage(itemArray[1], 200,30);
                     break;
                 case 'Bomb':
-                    ctx.drawImage(itemArray[2], 200,30, 80, 80);
+                    ctx.drawImage(itemArray[2], 200,30);
                     break;
                 case 'test':
                     ctx.fillText("test", 200, 80);
@@ -253,8 +253,8 @@ function caculate(evt) {
                 item.splice(0, 1);
                 break;
             case 'Bomb':
-				FishArray.splice(0, 20);
-				coin += 20;
+                    coin += FishArray.length;
+				    FishArray = [];
 				item.splice(0, 1);
                 console.log("test3");
                 break;

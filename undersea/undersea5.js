@@ -79,12 +79,12 @@ function boss(){
         clearInterval(start);
         GameOverCoin = coin;
         if (GameOverCoin < 20) {
-            localStorage.setItem('rank_4', "1stars");
+            localStorage.setItem('rank_5', "1stars");
         }
         else if (GameOverCoin < 40) {
-            localStorage.setItem('rank_4', "2stars");
+            localStorage.setItem('rank_5', "2stars");
         }
-        else { localStorage.setItem('rank_4', "3stars"); }
+        else { localStorage.setItem('rank_5', "3stars"); }
         GameOverCoin += parseInt(localStorage.getItem('Coin'));
         localStorage.setItem('Coin', GameOverCoin);
         localStorage.setItem("item", JSON.stringify(item))
