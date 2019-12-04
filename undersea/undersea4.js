@@ -189,7 +189,7 @@ function submarine() {
                     ctx.drawImage(itemArray[1], 200,30);
                     break;
                 case 'Bomb':
-                    ctx.drawImage(itemArray[2], 200,30, 50, 50);
+                    ctx.drawImage(itemArray[2], 200,30);
                     break;
                 case 'test':
                     ctx.fillText("test", 200, 80);

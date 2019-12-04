@@ -52,7 +52,7 @@ var submarine_hp = 100;
 //魔王
 var Boss_img = new Image();
 Boss_img.src = "../GUI/boss.png";
-var boss_hp =50;
+var boss_hp =80;
 
 
 canvas.addEventListener("click", caculate);
@@ -177,7 +177,7 @@ function submarine() {
                     ctx.drawImage(itemArray[1], 200,30);
                     break;
                 case 'Bomb':
-                    ctx.drawImage(itemArray[2], 200,30, 80, 80);
+                    ctx.drawImage(itemArray[2], 200,30);
                     break;
                 case 'test':
                     ctx.fillText("test", 200, 80);
