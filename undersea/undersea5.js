@@ -71,7 +71,7 @@ function boss(){
     boss_x += boss_dx;
     ctx.drawImage(Boss_img, boss_x, boss_y, 240, 200);
     ctx.save();
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "#db6ea4";
     ctx.fillRect(boss_x + 30, 430, boss_hp, 20);
     ctx.restore();
 
@@ -158,7 +158,7 @@ function submarine() {
     //GUI BAR
     ctx.drawImage(GUIsubmarine, innerWidth - 500, subUpDown, 240, 200);
     ctx.save();
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "#db6ea4";
     ctx.fillRect(innerWidth - 460, subUpDown + 230, submarine_hp, 20);
     ctx.restore();
     //設定字體

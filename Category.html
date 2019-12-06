@@ -9,6 +9,7 @@
     <style>
 
         body{
+            padding:0;
             background-image: url('GUI/bg.png');
             background-repeat: repeat;
             background-size: 200px;
@@ -28,8 +29,8 @@
         span.level {
             background-image: url('GUI/level.png');
             position: relative;
-            height: 136px;
-            width: 136px;
+            width: 142px;
+            height: 142px;
             display: inline-block;
             cursor: pointer;
             margin: 20px;
@@ -45,14 +46,16 @@
         .level p {
             position: absolute;
             font-size: 20px;
-            background-color:  rgb(221, 212, 255);
+            background-color:  rgb(121, 198, 235);
+            padding: 10px;
             border-radius: 20px;
             line-height: 20px;
             box-sizing: border-box;
         }
 
         span.level:hover p {
-            background-color: rgb(29, 209, 149);
+            color: white;
+            background-color: rgb(31, 71, 204);
         }
 
         span.level + img {
@@ -78,6 +81,8 @@
             font-size: 12px;
             margin: 0px 30px;
             padding: 20px 0;
+            box-shadow:inset 5px 1px black;
+            box-shadow: 3px 3px 3px 3px black;;
         }
 
 
@@ -111,15 +116,51 @@
         }
 
         .sub_place{
-            margin:auto;
-            float: right;
+            margin-left:80%;
+            animation-duration: 10s;
+            animation-name: submarine;
         }
+
+        @keyframes submarine {
+            from{
+            margin-left:0%;
+
+            }
+            to{
+                margin-left:80%;
+            }
+        }
+
+        div#enterBox{
+            width: 500px;
+            height: 450px;
+            /* background-color: red; */
+            text-align: center;
+            display: none;
+            margin-left: 35%;
+            z-index: 100;
+            position: fixed;
+        }
+
+        #enterBox button{
+            width: 100px;
+            height: 40px;
+            font-size: large;
+            box-shadow: inset 1px 2px 5px rgb(20, 108, 160);
+            background-color: rgb(127, 168, 255);
+        }
+
     </style>
 </head>
 
 <body>
 
-        <h1><img style=" margin-left: 30%; width: 400px;" src="GUI/title.png" alt=""></h1>
+        <h1><img style=" margin-left: 35%; width: 400px;" src="GUI/title.png" alt=""></h1>
+        <div id="enterBox">
+            <img id="enterBox_img"src="" alt=""><br>
+            <button id ="enterBtn" >確定</button>
+            <button onclick="showBox.style.display = 'none' " >取消</button>
+        </div>
         
     <div class="user">
         <input type="image" id="restart" src="GUI/head.png" alt="" onclick="refun()"><br>
@@ -140,14 +181,14 @@
         <img src="GUI/1-4.png" alt="">
         <span class="level" onclick="subLife(5)"><img src="GUI/stars-blank.png" alt=""><p>1-5</p></span>
         <img src="GUI/1-5.png" alt="">
-        <span class="level"><img src="GUI/stars-blank.png" alt=""><p>1-6</p></span>
-        <img src="GUI/1-6.png" alt="">
+        <!-- <span class="level"><img src="GUI/stars-blank.png" alt=""><p>1-6</p></span>
+        <img src="GUI/1-6.png" alt=""> -->
 
         <div class="sub_place">
             <img src="GUI/submarine.png" width="150px">
         </div>
+    
     </div>
-
 
 
     <div class="buyMe" id="buy">
@@ -165,6 +206,9 @@
         var imgTags = document.getElementsByTagName("img");
         var aTags = document.getElementsByTagName("a");
         var levelTags = document.getElementsByClassName("level");
+        var showBox = document.getElementById("enterBox");
+        var showBox_img = document.getElementById("enterBox_img");
+        var showBox_btn = document.getElementById("enterBtn");
 
         function refun() {
             localStorage.clear();
@@ -210,10 +254,13 @@
         //     }
 
         function subLife(where){
-            // where += 1;
-            if(window.confirm('進去要扣一顆愛心喔！')){
-                location.replace("undersea/1-"+where+".html");
-            }
+            showBox.style.display="block";
+            showBox_img.src="GUI/1-"+ where +".png";
+            showBox_btn.setAttribute("onclick","gotowhere("+where+")");
+        }
+
+        function gotowhere(where){
+            location.replace("undersea/1-"+where+".html");
         }
 
         if( nextLevel == false){
@@ -254,7 +301,6 @@
                 alert("錢不夠");
             }
         }
-
 
 
     </script>

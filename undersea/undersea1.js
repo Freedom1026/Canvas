@@ -114,7 +114,7 @@
             //GUI BAR
             ctx.drawImage(GUIsubmarine, innerWidth - 250, subUpDown, 240, 200);
             ctx.save();
-            ctx.fillStyle = "red";
+            ctx.fillStyle = "#db6ea4";
             ctx.fillRect(innerWidth - 210, subUpDown + 230, submarine_hp, 20);
             ctx.restore();
             //設定字體
@@ -196,12 +196,11 @@
                 let b = Math.hypot(Posx, Posy);
                 if (b < a) {
                     a = b;
-                    var theNearest = i + 1;
+                    var theNearest = i;
                 } else { };
             }
 
-            if (theNearest) {
-                theNearest -= 1;
+            if (theNearest != null) {
                 coin += 1;
                 blingCoin.push(new moneyPro(FishArray[theNearest].x, FishArray[theNearest].y));
                 FishArray.splice(theNearest, 1);
