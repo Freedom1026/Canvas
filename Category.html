@@ -157,6 +157,7 @@
 <body>
 
         <h1><img style=" margin-left: 35%; width: 400px;" src="GUI/title.png" alt=""></h1>
+		
         <div id="enterBox">
             <img id="enterBox_img"src="" alt=""><br>
             <button id ="enterBtn" >PLAY</button>
@@ -201,6 +202,7 @@
 
 
     <script>
+	
         var coin = localStorage.getItem('Coin');
         var life = document.getElementById("hearts");
         var Money = document.getElementById("money");
@@ -219,6 +221,8 @@
             location.reload();
         }
         
+
+		
         if (localStorage.getItem("life")) {
             life.innerHTML = "♥:   " + localStorage.getItem("life");
             if(localStorage.getItem("life")<0){
@@ -231,6 +235,10 @@
         } else { Money.innerHTML = "$:" }
 
         var nextLevel = false;
+		
+		if(nextLevel == false){
+			if(localStorage.getItem("rank_1")){}else{alert("第一次玩，請先點擊人物頭像，取得預設值！");}
+		}
         var pass = 1;
         if(localStorage.getItem("rank_1")){
             imgTags[1].src = "GUI/"+localStorage.getItem("rank_1")+".png";
