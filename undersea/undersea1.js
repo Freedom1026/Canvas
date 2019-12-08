@@ -126,7 +126,7 @@
             ctx.drawImage(TimeBomb, 500, 30, 250, 40);
             ctx.fillText(timer, 620, 65);
             //未開啟功能
-            ctx.drawImage(Locker, 280, 30, 120, 40);
+            ctx.drawImage(Locker, 280, 30, 120, 60);
 
             if (submarine_hp <= 0) {
                 clearInterval(start);
