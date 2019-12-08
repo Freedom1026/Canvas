@@ -36,7 +36,6 @@ TimeBomb.src = '../GUI/timer.png';
 //音效
 var audioEffect = new Audio("../GUI/ding.wav");
 var BGmusic = new Audio("../GUI/Kindergarden.mp3");
-var BGMflag = false;
 
 
 //獲得道具總列
@@ -86,6 +85,34 @@ function timeAdd() {
         location.replace("../RESULT/success.html");
     }
 }
+
+		//音效撥放功能
+		var flagBG = false;
+		var flagAD = false;
+		function bgPlay(bbk){
+			console.log(bbk);
+			if(flagBG == false){
+				flagBG = true;
+				bbk.style.backgroundImage = "url('../GUI/sound-on.png')";
+				BGmusic.play();
+			}
+			else if(flagBG == true){
+				flagBG = false;
+				bbk.style.backgroundImage = "url('../GUI/sound-off.png')";
+				BGmusic.pause();
+			}
+		}
+		function collisionClick(bbk){
+			console.log(bbk);
+			if(flagAD == false){
+				flagAD = true;
+				bbk.style.backgroundImage = "url('../GUI/speaker.png')";
+			}
+			else if(flagAD == true){
+				flagAD = false;
+				bbk.style.backgroundImage = "url('../GUI/speaker-off.png')";
+			}
+		}
 
 //扣體力值
 var health = localStorage.getItem("life") - 1;
@@ -294,7 +321,6 @@ var coin = 0;
 
 
 function caculate(evt) {
-    (BGMflag == false)? BGmusic.play():0;
     let a = 57;
     for (var i = 0; i < FishArray2.length; i++) {
         var Posx = evt.offsetX - (FishArray2[i].x + 50);
@@ -311,7 +337,7 @@ function caculate(evt) {
         blingCoin.push(new moneyPro(FishArray2[theNearest].x, FishArray2[theNearest].y));
         FishArray2.splice(theNearest, 1);
         console.log(theNearest)
-        audioEffect.play();
+        (flagAD == true)?  audioEffect.play():audioEffect.pause();
     }
 
     for (var i = 0; i < FishArray.length; i++) {
@@ -329,7 +355,7 @@ function caculate(evt) {
         blingCoin.push(new moneyPro(FishArray[theNearest].x, FishArray[theNearest].y));
         FishArray.splice(theNearest, 1);
         console.log(theNearest)
-        audioEffect.play();
+        (flagAD == true)?  audioEffect.play():audioEffect.pause();
     }
 
 
