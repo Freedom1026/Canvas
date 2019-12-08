@@ -8,13 +8,16 @@ var itemArray = new Array();
     itemArray[1] = new Image();
     itemArray[1].src = '../GUI/coinDouble.png';
 var recover = 0;
-var double = 0;
+var coinDouble = 0;
+var bomb = 0;
 
 for(var i = 0 ; i< item.length; i++){
     if (item[i] = "Recover")
     {  recover+=1;}
     else if (item[i] = "Double")
-    {   double += 1;}
+    {   coinDouble += 1;}
+	else if (item[i] = "Bomb"){
+		bomb += 1;}
 }
 
-List.innerHTML = "目前金幣數："+coin+"<br><img src='../GUI/addHP.png'>："+recover+"<img src='../GUI/coinDouble.png'>："+double;
+List.innerHTML = "目前金幣數："+coin+"<br><img src='../GUI/addHP.png'>："+recover+"<img src='../GUI/coinDouble.png'>：" + coinDouble + "<img src='../GUI/time.png'>："+ bomb;
