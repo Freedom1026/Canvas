@@ -130,7 +130,7 @@ function submarine() {
     //GUI BAR
     ctx.drawImage(GUIsubmarine, innerWidth - 500, subUpDown, 240, 200);
     ctx.save();
-    ctx.fillStyle = "#db6ea4";
+    ctx.fillStyle = "#e34f4f";
     ctx.fillRect(innerWidth - 460, subUpDown + 230, submarine_hp, 20);
     ctx.restore();
     //設定字體
