@@ -164,7 +164,7 @@
 <body>
 
         <h1><img style=" margin-left: 35%; width: 400px;" src="GUI/title.png" alt=""></h1>
-		<h2 id="FirstTime" style = "margin-left:30%; color:red;" ></h2>
+		<input type="image" id="FirstTime" src="GUI/startgame.png" style="position:fixed; z-index:100; top:3%; left:22%; width:55%; display:block;" onclick="firstPlay()"></h2>
         <div id="enterBox">
             <img id="enterBox_img"src="" alt=""><br>
             <button id ="enterBtn" >PLAY</button>
@@ -221,13 +221,23 @@
         var showBox_btn = document.getElementById("enterBtn");
 
         function refun() {
-            localStorage.clear();
+          localStorage.clear();
+            localStorage.setItem("life", 10);
+            localStorage.setItem("Coin", 7000);
+            localStorage.setItem("item", JSON.stringify(buythings));
+			localStorage.setItem("closeWindow", "yes");
+            location.reload();
+			document.getElementById("FirstTime").style.display = "none";
+        }
+        
+        function firstPlay() {
             localStorage.setItem("life", 10);
             localStorage.setItem("Coin", 0);
             localStorage.setItem("item", JSON.stringify(buythings));
+			localStorage.setItem("closeWindow", "yes");
             location.reload();
         }
-        
+
 
 		
         if (localStorage.getItem("life")) {
@@ -244,27 +254,27 @@
         var nextLevel = false;
 		
 		if(nextLevel == false){
-			if(localStorage.getItem("rank_1")){
+			if(localStorage.getItem("closeWindow")){
 			document.getElementById("FirstTime").style.display = "none";
 			}
-			else{document.getElementById("FirstTime").innerHTML = "第一次玩，請先點擊人物頭像，取得預設值！";}
+			else{document.getElementById("FirstTime").style.display = "block";}
 		}
         var pass = 1;
         if(localStorage.getItem("rank_1")){
-            imgTags[1].src = "GUI/"+localStorage.getItem("rank_1")+".png";
+            imgTags[2].src = "GUI/"+localStorage.getItem("rank_1")+".png";
             nextLevel = true;
         } 
         if(localStorage.getItem("rank_2")){
-            imgTags[3].src = "GUI/"+localStorage.getItem("rank_2")+".png";
+            imgTags[4].src = "GUI/"+localStorage.getItem("rank_2")+".png";
         } 
         if(localStorage.getItem("rank_3")){
-            imgTags[5].src = "GUI/"+localStorage.getItem("rank_3")+".png";
+            imgTags[6].src = "GUI/"+localStorage.getItem("rank_3")+".png";
         } 
         if(localStorage.getItem("rank_4")){
-            imgTags[7].src = "GUI/"+localStorage.getItem("rank_4")+".png";
+            imgTags[8].src = "GUI/"+localStorage.getItem("rank_4")+".png";
         } 
 		if(localStorage.getItem("rank_5")){
-            imgTags[9].src = "GUI/"+localStorage.getItem("rank_5")+".png";
+            imgTags[10].src = "GUI/"+localStorage.getItem("rank_5")+".png";
         } 
 
 
